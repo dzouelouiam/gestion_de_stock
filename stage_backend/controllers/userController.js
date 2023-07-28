@@ -41,16 +41,16 @@ const registerUser = asyncHandler( async(req,res) => {
         password: hashedPassword,
      });
 // Generate Token
-const token = generateToken(user._id);
+    const token = generateToken(user._id);
 
-// Send HTTP-only cookie
-res.cookie("token", token, {
-    path:"/",
-    httpOnly:true,
-    expires: new Date(Date.now() + 1000* 86400), // 1day
-    sameSite :"none",
-    secure: true,
-});
+    // Send HTTP-only cookie
+    res.cookie("token", token, {
+        path:"/",
+        httpOnly:true,
+        expires: new Date(Date.now() + 1000* 86400), // 1day
+        sameSite :"none",
+        secure: true,
+    });
 
      if(user){
         const{_id, name, email, photo, phone, bio }= user;
@@ -179,7 +179,6 @@ const updateUser = asyncHandler(async(req,res)=>{
  
 
 });
-
 //change password 
 const changePassword = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
@@ -209,6 +208,10 @@ const changePassword = asyncHandler(async (req, res) => {
     }
   });
   
+//forgot password
+const forgotPassword = asyncHandler(async(req, res)=> {
+    res.send("forgot password");
+});
 
 module.exports = {
     registerUser,
@@ -218,4 +221,5 @@ module.exports = {
     loginStatus,
     updateUser,
     changePassword,
+    forgotPassword,
 };
