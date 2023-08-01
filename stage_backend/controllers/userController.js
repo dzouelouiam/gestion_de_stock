@@ -2,8 +2,11 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { response } = require("express");
+const Token = require("../models/tokenModel");
+const crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
 
+//Generate Token 
 const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: "1d"});
 };
@@ -66,45 +69,56 @@ const registerUser = asyncHandler( async(req,res) => {
 });
 
 // Login User
-const loginUser = asyncHandler( async (req, res)=>{
-    const {email,password}= req.body;
-
-    //validate Request
-    if(!email || !password){
-        res.status(400);
-        throw new Error("Please provide email and password");
+const loginUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+  
+    // Validate Request
+    if (!email || !password) {
+      res.status(400);
+      throw new Error("Please add email and password");
     }
-    // Check if the user exists in the database
+  
+    // Check if user exists
     const user = await User.findOne({ email });
-
+  
     if (!user) {
-        res.status(401);
-        throw new Error("User not found, please signup");
-      }
-    // Check if the provided password matches the stored hashed password
-    const passwordIsCorrext = await bcrypt.compare(password, user.password);
-    // Generate Token
-    const token = generateToken(user._id);
-
-    // Send HTTP-only cookie
-    res.cookie("token", token, {
-        path:"/",
-        httpOnly:true,
-        expires: new Date(Date.now() + 1000* 86400), // 1day
-        sameSite :"none",
-        secure: true,
-    });
-
-    if (user && passwordIsCorrext) {
-        const{_id, name, email, photo, phone, bio }= user;
-        res.status(200).json({
-            _id, name, email, photo, phone, bio,token
-        });
-    } else{
-        res.status(405);
-        throw new Error("Invalid email or password");
+      res.status(400);
+      throw new Error("User not found, please signup");
     }
-});
+  
+    // User exists, check if password is correct
+    const passwordIsCorrect = await bcrypt.compare(password, user.password);
+  
+    //   Generate Token
+    const token = generateToken(user._id);
+    
+    if(passwordIsCorrect){
+     // Send HTTP-only cookie
+    res.cookie("token", token, {
+      path: "/",
+      httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 86400), // 1 day
+      sameSite: "none",
+      secure: true,
+    });
+  }
+    if (user && passwordIsCorrect) {
+      const { _id, name, email, photo, phone, bio } = user;
+      res.status(200).json({
+        _id,
+        name,
+        email,
+        photo,
+        phone,
+        bio,
+        token,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid email or password");
+    }
+  });
+  
 // Logout User 
 const logout = asyncHandler(async (req,res) => {
  res.cookie("token","",{
@@ -201,7 +215,7 @@ const changePassword = asyncHandler(async (req, res) => {
     if (user && passwordIsCorrect) {
       user.password = password;
       await user.save();
-      res.status(200).send("Password change successfuly");
+      res.status(200).send("Password change successful");
     } else {
       res.status(400);
       throw new Error("Old password is incorrect");
@@ -210,7 +224,56 @@ const changePassword = asyncHandler(async (req, res) => {
   
 //forgot password
 const forgotPassword = asyncHandler(async(req, res)=> {
-    res.send("forgot password");
+    const {email}= req.body;
+    const user = await User.findOne({email});
+
+    if(!user){
+        res.status(404);
+        throw new Error("Utilisateur non trouvable");
+    }
+    // delete token if it exists in DB 
+    let token = await Token.findOne({userId: user._id});
+    if (token) {
+        await token.deleteOne();
+    }
+    //create Resete Token
+    let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
+    console.log(resetToken);
+    // hash token before saving to DB
+    const hashedToken= crypto
+    .createHash("sha256").update(resetToken).digest("hex");
+    console.log(hashedToken);
+    await new Token({
+        userId: user._id,
+        token: hashedToken,
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 30 *(60*1000) // 30 minutes
+    }).save();
+    //Construct Reset Url
+    const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
+
+    // Reset Email
+    const message = `
+        <h2>Hello ${user.name}</h2>
+        <p>Please use the url below to reset your password</p>  
+        <p>This reset link is valid for only 30minutes.</p>
+
+        <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+
+        <p> Regards...</p>
+        <p>Gestion de stock team </p>
+    `;
+    const subject = "Password Reset Request";
+    const send_to = user.email;
+    const sent_from = process.env.EMAIL_USER;
+
+    try{
+        await sendEmail(subject, message, send_to, sent_from);
+        res.status(200).json({success : true, message: "Reset Email Sent"});
+    }catch (error){
+        res.status(500);
+        throw new Error("Email not sent, please try again");
+    }
 });
 
 module.exports = {
