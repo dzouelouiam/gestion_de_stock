@@ -6,6 +6,21 @@ const Token = require("../models/tokenModel");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 
+
+
+//hash password
+const hashPassword = async (password)=>{
+    // Encrypt password before saving to DB 
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
+};
+
+// verifie password
+const verifePass = async (password, databasePassword) =>{
+    return await bcrypt.compare(password, databasePassword);
+};
+
+
 //Generate Token 
 const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: "1d"});
@@ -32,9 +47,7 @@ const registerUser = asyncHandler( async(req,res) => {
         throw new Error("Email already registred");
      }
 
-// Encrypt password before saving to DB 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+     const hashedPassword = await hashPassword(password);
 
 
 // create new user
@@ -87,7 +100,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
   
     // User exists, check if password is correct
-    const passwordIsCorrect = await bcrypt.compare(password, user.password);
+    const passwordIsCorrect = await verifePass(password, user.password)
   
     //   Generate Token
     const token = generateToken(user._id);
@@ -207,13 +220,13 @@ const changePassword = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("Please add old and new password");
     }
-  
+
     // check if old password matches password in DB
     const passwordIsCorrect = await bcrypt.compare(oldPassword, user.password);
   
     // Save new password
     if (user && passwordIsCorrect) {
-      user.password = password;
+      user.password = await hashPassword(password);
       await user.save();
       res.status(200).send("Password change successful");
     } else {
