@@ -269,13 +269,13 @@ const forgotPassword = asyncHandler(async(req, res)=> {
     // Reset Email
     const message = `
         <h2>Hello ${user.name}</h2>
-        <p>Please use the url below to reset your password</p>  
-        <p>This reset link is valid for only 30minutes.</p>
+        <p>Veuillez utiliser l'url ci-dessous pour réinitialiser votre mot de passe</p>  
+        <p>Ce lien de réinitialisation n'est valable que 30 minutes.</p>
 
         <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
 
-        <p> Regards...</p>
-        <p>Gestion de stock team </p>
+        <p> Salutations...</p>
+        <p>L'équipe de gestion des stocks </p>
     `;
     const subject = "Password Reset Request";
     const send_to = user.email;
