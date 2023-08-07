@@ -15,6 +15,7 @@ const Home = () => {
             <li><a className="text-white">Homepage</a></li>
             <li><a className="text-white">Portfolio</a></li>
             <li><a className="text-white">About</a></li>
+            <li><a className="text-white">Logout</a></li>
           </ul>
         </div>
       </div>

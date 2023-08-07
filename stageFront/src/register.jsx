@@ -3,6 +3,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 
 const Alert = ({ message }) => (
   <div className="alert alert-error">
@@ -25,6 +26,7 @@ const Alert = ({ message }) => (
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState(null);
+  
 
   const schema = z.object({
     email: z.string().email().nonempty("Vous devez fournir un email valide"),
@@ -35,6 +37,8 @@ const Login = () => {
   const methods = useForm({
     resolver: zodResolver(schema),
   });
+
+  const navigate = useNavigate();
 
   const submit = async (data) => {
     try {
@@ -53,6 +57,8 @@ const Login = () => {
       if (response.ok) {
         const responseData = await response.json();
         console.log(responseData); // Do something with the response data if needed
+        localStorage.setItem("JWT",response.token);
+        navigate({pathname:"/home"});
       } else {
         const errorData = await response.json();
         console.error(errorData); // Log the error data if there's an issue with the request

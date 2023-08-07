@@ -2,9 +2,8 @@ import Input from "./components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {useForm, FormProvider} from "react-hook-form";
 import {z} from "zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-
 
 const Alert = ({ message }) => (
     <div className="alert alert-error">
@@ -26,8 +25,6 @@ const Alert = ({ message }) => (
   );
 
 const Login = () => {
-    
-
     const schema = z.object({
         email: z.string().email().nonempty("vous devez fournir un email"),
         password:z.string().min(6,{message:"Le mot de passe doit avoir un min de 6 caractères"}).nonempty({message:"Le mot de passe doit avoir un min de 6 caractères"})
@@ -39,6 +36,7 @@ const Login = () => {
 
     let [loginStatus, setLoginStatus] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     const submit = (data) =>{
         fetch("http://localhost:3000/api/users/login", {
@@ -56,20 +54,23 @@ const Login = () => {
             setLoginStatus(response.success);
 
             // If login is unsuccessful, set the error message from the response
-            if (!response.success) {
+            if (!res.ok) {
                 setErrorMessage(response.message);
             } else {
                 // If login is successful, clear the error message
+                console.log("ok");
                 setErrorMessage("");
+                localStorage.setItem("JWT",response.token);
+                navigate({pathname:"/home"}) // Redirect to /home on successful login
             }
-        })
-        .catch((err) => {
+        }).catch((err) => {
             console.log(err);
             setLoginStatus(false);
             // If there's an error, set a generic error message
             setErrorMessage("An error occurred while logging in.");
         });
     };
+
 
     return (
             
@@ -92,7 +93,7 @@ const Login = () => {
                 </div>
                 <div className="navbar-center">
                     <a className="btn btn-ghost normal-case text-xl text-white">
-                    Gestion de stock
+                        Gestion de stock
                     </a>
                 </div>
                 <div className="navbar-end">
@@ -111,7 +112,7 @@ const Login = () => {
                  </button>
             </div>
         </div>
-        
+
             <form className="w-full flex justify-center items-center h-screen"
                 onSubmit={methods.handleSubmit(submit)}
             >
@@ -128,8 +129,12 @@ const Login = () => {
                             <p className="capitalize hover:underline hover:cursor-pointer">Mot de passe oublié?</p>
                         </Link>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">LOGIN</button>
+                        <button className="btn btn-primary" onClick={methods.handleSubmit(submit)}>
+                            LOGIN
+                        </button>
+                        <Link to="/register">
                             <button className="btn btn-primary">REGISTER</button>
+                        </Link>
                         </div>
                     </div>
                 </div>
