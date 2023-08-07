@@ -20,6 +20,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="/entree" element={ <Entree/>}/>
         
+
       </Route>
 
     </Routes>
