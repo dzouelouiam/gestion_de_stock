@@ -4,6 +4,9 @@ import Login from "./login";
 import Register from "./register";
 import ForgetPass from "./forgetPass";
 import Home from "./home";
+import Entree from "./entree";
+import { UserAuth } from "./middlewares/userAuth";
+
 
 const App = () => {
   return (
@@ -12,7 +15,13 @@ const App = () => {
       <Route path="/login" element={ <Login/>}/>
       <Route path="/register" element={ <Register/>}/>
       <Route path="/forgetPassword" element={ <ForgetPass/>}/>
-      <Route path="/home" element={ <Home/>}/>
+      
+      <Route path="/" element={<UserAuth />} >
+        <Route index element={<Home />} />
+        <Route path="/entree" element={ <Entree/>}/>
+        
+      </Route>
+
     </Routes>
      
     </BrowserRouter>

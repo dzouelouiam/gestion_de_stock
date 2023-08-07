@@ -157,7 +157,7 @@ const getUser = asyncHandler(async (req,res) =>{
     
 // login Status
 const loginStatus = asyncHandler(async (req,res)=>{
-    const token = req.cookies.token;
+    const token = req.header('Authorization')?.replace('Bearer ', '');
     if(!token){
         return res.json(false);
     }
@@ -280,6 +280,31 @@ const forgotPassword = asyncHandler(async(req, res)=> {
         throw new Error("Email not sent, please try again");
     }
 });
+const verifyToken = asyncHandler(async (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+  
+    if (!token) {
+      return res.status(404).json("Unauthorized - No token provided");
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET,async(err,decodedToken)=>{
+    if(err)
+    {
+        return res.status(400).json({success: false,message:"invalid token"});
+    }
+    else if(decodedToken)
+    {
+        try {
+            const user = await User.findById(decodedToken.id);
+            if(user)
+            return res.status(200).json({success: true,message:"found"})
+        } catch (err) {
+            return res.status(400).json({success: false,message:"user not found"});
+        }
+    }
+    });
+});
+  
 
 module.exports = {
     registerUser,
@@ -290,4 +315,5 @@ module.exports = {
     updateUser,
     changePassword,
     forgotPassword,
+    verifyToken,
 };
