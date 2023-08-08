@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AddProduct = ({ getAllProducts, setShowCard }) => {
   const [productData, setProductData] = useState({
@@ -52,9 +52,24 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
     }
   };
 
+  useEffect(() => {
+    // Add event listener to close card when clicking outside of it
+    const handleOutsideClick = (e) => {
+      if (e.target.classList.contains('bg-slate-500/80')) {
+        setShowCard(false);
+      }
+    };
+
+    window.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, [setShowCard]);
+
   return (
-    <div className="w-full flex justify-center items-center h-screen">
-      <div className="flex w-full max-w-lg p-6 base-300 neutral-content rounded-lg shadow-lg">
+    <div className="absolute top-0 left-0 z-50 w-full h-full flex flex-col justify-center items-center bg-slate-500/80">
+      <div className="card w-1/4 bg-base-200 text-content text-black">
         <div className="card-body ">
           <h2 className="card-title">Ajouter un nouveau produit</h2>
           <form onSubmit={handleSubmit}>

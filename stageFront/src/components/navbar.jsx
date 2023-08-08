@@ -28,8 +28,8 @@ const Navbar = () => {
                         </label>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow dark:bg-gray-800 rounded-box w-52">
                             <li><Link to="/" className="text-white">Page d’accueil</Link></li>
-                            <li><a className="text-white">Profile</a></li>
-                            <li><a className="text-white">à propos</a></li>
+                            <li><Link to="/profile" className="text-white">Profile</Link></li>
+                            
                             {
                                 userToken !== null
                                 &&

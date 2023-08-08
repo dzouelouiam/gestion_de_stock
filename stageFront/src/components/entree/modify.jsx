@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const Modify = ({ productData, modifyProduct }) => {
+const Modify = ({ productData, modifyProduct, setShowCard }) => {
   const [modifiedData, setModifiedData] = useState({
     name: productData.name,
     category: productData.category,
@@ -26,10 +26,26 @@ const Modify = ({ productData, modifyProduct }) => {
       console.error('Error occurred while modifying product:', error);
     }
   };
+  
+  useEffect(() => {
+    // Add event listener to close card when clicking outside of it
+    const handleOutsideClick = (e) => {
+      if (e.target.classList.contains('bg-slate-500/80')) {
+        setShowCard(false);
+      }
+    };
+
+    window.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, [setShowCard]);
+
 
   return (
-    <div className="w-full flex justify-center items-center h-screen">
-      <div className="flex w-full max-w-lg p-6 base-300 neutral-content rounded-lg shadow-lg">
+    <div className="fixed top-0 left-0 z-50 w-full h-full flex justify-center items-center bg-slate-500/80">
+      <div className="card w-1/4 bg-base-200 text-content text-black">
         <div className="card-body">
           <h2 className="card-title">Modifier un produit</h2>
           <form onSubmit={handleSubmit}>
