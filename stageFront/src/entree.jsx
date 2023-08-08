@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Table from './components/entree/table';
 import Navbar from './components/navbar';
 import AddProduct from './components/entree/add';
+import Delete from './components/entree/delete';
+import Modify from './components/entree/modify';
 
 const Entree = () => {
   const [showCard, setShowCard] = useState(false);
@@ -44,7 +46,7 @@ const Entree = () => {
         <Table products={products} />
         <div className="flex justify-center flex justify-center items-center flex-grow space-x-8 mt-8">
           <button className="btn btn-outline" onClick={handleAddButtonClick}>
-            Add
+          Ajouter
           </button>
           <div className="join">
             <button className="join-item btn">«</button>

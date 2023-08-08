@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import LogoutConfirm from "./logoutConfirm";
 
 const Navbar = () => {
@@ -27,9 +27,9 @@ const Navbar = () => {
                             </svg>
                         </label>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow dark:bg-gray-800 rounded-box w-52">
-                            <li><a className="text-white">Homepage</a></li>
-                            <li><a className="text-white">Portfolio</a></li>
-                            <li><a className="text-white">About</a></li>
+                            <li><Link to="/" className="text-white">Page d’accueil</Link></li>
+                            <li><a className="text-white">Profile</a></li>
+                            <li><a className="text-white">à propos</a></li>
                             {
                                 userToken !== null
                                 &&
