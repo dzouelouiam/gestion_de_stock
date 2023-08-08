@@ -54,8 +54,8 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
 
   return (
     <div className="w-full flex justify-center items-center h-screen">
-      <div className="card lg:card-side bg-base-100 shadow-xl">
-        <div className="card-body">
+      <div className="flex w-full max-w-lg p-6 base-300 neutral-content rounded-lg shadow-lg">
+        <div className="card-body ">
           <h2 className="card-title">Ajouter un nouveau produit</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-control">
@@ -135,6 +135,7 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
         </div>
       </div>
     </div>
+   
   );
 };
 
