@@ -50,7 +50,9 @@ const Home = () => {
                             <h2 className="card-title">Profile</h2>
                             <p>Vue profile</p>
                             <div className="card-actions">
+                            <Link to="/profile">
                                 <button className="btn btn-primary">Profile</button>
+                            </Link>
                             </div>
                         </div>
                     </div>
