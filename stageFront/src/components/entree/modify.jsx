@@ -7,6 +7,7 @@ const Modify = ({ productData, modifyProduct, setShowCard }) => {
     quantity: productData.quantity,
     description: productData.description,
     source: productData.source,
+    customDate: productData.customDate,
   });
 
   const handleChange = (e) => {
@@ -17,21 +18,31 @@ const Modify = ({ productData, modifyProduct, setShowCard }) => {
     });
   };
 
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
+    setModifiedData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await modifyProduct(modifiedData);
+      console.log('Modified Data:', modifiedData); // Log modifiedData
+      const response = await modifyProduct(modifiedData);
+      console.log('Modify Response:', response); // Log the response
       // You can handle the success message or action here
     } catch (error) {
       console.error('Error occurred while modifying product:', error);
     }
   };
-  
+
   useEffect(() => {
     // Add event listener to close card when clicking outside of it
     const handleOutsideClick = (e) => {
       if (e.target.classList.contains('bg-slate-500/80')) {
-        setShowCard(false);
+        setShowCard(false); // This should work if setShowCard is passed correctly
       }
     };
 
@@ -41,6 +52,7 @@ const Modify = ({ productData, modifyProduct, setShowCard }) => {
       window.removeEventListener('click', handleOutsideClick);
     };
   }, [setShowCard]);
+
 
 
   return (
@@ -115,6 +127,19 @@ const Modify = ({ productData, modifyProduct, setShowCard }) => {
                   <option value="fournisseur">Fournisseur</option>
                   <option value="marché">Marché</option>
                 </select>
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="label">
+                Date d'entrée:
+                <input
+                  type="date"
+                  name="customDate"
+                  value={modifiedData.customDate}
+                  onChange={handleDateChange}
+                  className="input input-bordered"
+                  required
+                />
               </label>
             </div>
             <div className="card-actions justify-end">

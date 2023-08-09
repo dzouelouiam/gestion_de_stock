@@ -5,6 +5,7 @@ import Modify from "./Modify";
 const Table = () => {
   const [products, setProducts] = useState([]);
 
+
   useEffect(() => {
     // Function to fetch all products from the backend API
     const getAllProducts = async () => {
@@ -100,7 +101,8 @@ const Table = () => {
           <th>Quantité</th>
           <th>Description</th>
           <th>Source</th>
-          <th>Actions</th>
+          <th>Date d'entrée</th>
+          <th className="text-center">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -112,11 +114,12 @@ const Table = () => {
             <td>{product.quantity}</td>
             <td>{product.description}</td>
             <td>{product.source}</td>
+            <td>{new Date(product.customDate).toLocaleDateString()}</td>
             <td>
-              <div className="flex">
+              <div className="flex justify-center">
                 <Delete productId={product._id} onDelete={() => handleDeleteProduct(product._id)} />
                 <button
-                  className="btn btn-active ml-2"
+                  className="btn btn-success ml-2"
                   onClick={() => {
                     setShowModifyForm(true);
                     setSelectedProduct(product);
@@ -124,13 +127,18 @@ const Table = () => {
                 >
                   Modifier
                 </button>
+                <button
+                  className="btn btn-neutral ml-2"
+                >
+                  Sortie
+                </button>
               </div>
             </td>
           </tr>
         ))}
       {showModifyForm && selectedProduct && (
         <tr>
-          <td colSpan="7">
+          <td colSpan="8">
             <Modify
               productData={selectedProduct}
               modifyProduct={handleModifyProduct}

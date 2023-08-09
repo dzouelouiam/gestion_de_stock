@@ -10,4 +10,6 @@ router.delete("/deleteProduct/:id", protect, deleteProduct);
 router.patch("/updateProduct/:id", protect, updateProduct);
 
 
+
+
 module.exports = router;

@@ -29,7 +29,7 @@ const Navbar = () => {
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow dark:bg-gray-800 rounded-box w-52">
                             <li><Link to="/" className="text-white">Page d’accueil</Link></li>
                             <li><Link to="/profile" className="text-white">Profile</Link></li>
-                            
+
                             {
                                 userToken !== null
                                 &&
@@ -44,9 +44,9 @@ const Navbar = () => {
                     </div>
                 </div>
                 <div className="navbar-center">
-                    <a className="btn btn-ghost normal-case text-xl text-white">
+                    <Link to="/" className="btn btn-ghost normal-case text-xl text-white">
                         Gestion de stock
-                    </a>
+                    </Link>
                 </div>
                 <div className="navbar-end">
                     <button className="btn btn-ghost btn-circle">
@@ -67,7 +67,7 @@ const Navbar = () => {
             {
                 loggingOut
                 &&
-                <LogoutConfirm logout={logout} isLoggingOut={isLoggingOut}/>
+                <LogoutConfirm logout={logout} isLoggingOut={isLoggingOut} />
             }
         </>
     );

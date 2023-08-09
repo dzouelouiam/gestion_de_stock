@@ -24,7 +24,7 @@ app.use("/api/products",productRoute);
 app.get("/", (req,res)=>{
     res.send("Home Page");
 });
-// Error Middlware
+// Error Middleware
 app.use(errorHandler);
 // Connect to DB and start server 
 const PORT = process.env.PORT || 3000;

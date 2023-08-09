@@ -1,21 +1,34 @@
 import React, { useState, useEffect } from 'react';
 
 const AddProduct = ({ getAllProducts, setShowCard }) => {
-  const [productData, setProductData] = useState({
-    name: '',
-    category: '',
-    quantity: '',
-    description: '',
-    source: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProductData({
-      ...productData,
-      [name]: value,
-    });
-  };
+    const [productData, setProductData] = useState({
+        name: '',
+        category: '',
+        quantity: '',
+        description: '',
+        source: '',
+        customDay: '',
+        customMonth: '',
+        customYear: '',
+      });
+      
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'customYear' || name === 'customMonth' || name === 'customDay') {
+          // If changing customYear, customMonth, or customDay, update only those fields
+          setProductData((prevData) => ({
+            ...prevData,
+            [name]: value,
+            customDate: `${prevData.customYear}-${prevData.customMonth}-${prevData.customDay}`,
+          }));
+        } else {
+          // For other fields, update the entire productData
+          setProductData((prevData) => ({
+            ...prevData,
+            [name]: value,
+          }));
+        }
+      };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +58,7 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
           quantity: '',
           description: '',
           source: '',
+          customDate: '',
         });
       }
     } catch (error) {
@@ -139,6 +153,19 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
                   <option value="fournisseur">Fournisseur</option>
                   <option value="marché">Marché</option>
                 </select>
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="label">
+                Date d'entrée:
+                <input
+                  type="date"
+                  name="customDate"
+                  value={productData.customDate}
+                  onChange={handleChange}
+                  className="input input-bordered"
+                  required
+                />
               </label>
             </div>
             <div className="card-actions justify-end">

@@ -20,7 +20,7 @@ export function UserAuth() {
         console.error(err);
         setUserLoggedIn(false);
     }).finally(() => {
-        console.log("hello bitchs");
+        console.log("hello");
       setIsLoading(false);
     });
     }
