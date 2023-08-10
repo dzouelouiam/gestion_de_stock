@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const protect = asyncHandler(async (req, res, next) => {
   try{
     let token = req.header('Authorization')?.replace('Bearer ', '');
-    console.log(token);
      if (!token) {
       res.status(401);
       throw new Error("Not authorized, please login");

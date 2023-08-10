@@ -24,7 +24,6 @@ const ForgetPass = () => {
             })
         }).then(async (res)=>{
             let response = await res.json();
-            console.log(response);
             setStatus(response.success)
         }).catch((err)=>{
             console.log(err);

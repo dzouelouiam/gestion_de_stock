@@ -11,7 +11,7 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
         customMonth: '',
         customYear: '',
       });
-      
+
       const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === 'customYear' || name === 'customMonth' || name === 'customDay') {
@@ -95,7 +95,7 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
                   name="name"
                   value={productData.name}
                   onChange={handleChange}
-                  className="input input-bordered"
+                  className="input input-bordered w-8/12"
                   required
                 />
               </label>
@@ -108,7 +108,7 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
                   name="category"
                   value={productData.category}
                   onChange={handleChange}
-                  className="input input-bordered"
+                  className="input input-bordered w-8/12"
                   required
                 />
               </label>
@@ -121,10 +121,10 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
                   name="quantity"
                   value={productData.quantity}
                   onChange={handleChange}
-                  className="input input-bordered"
+                  className="input input-bordered w-8/12"
                   required
                 />
-              </label>
+              </label> 
             </div>
             <div className="form-control">
               <label className="label">
@@ -134,7 +134,7 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
                   name="description"
                   value={productData.description}
                   onChange={handleChange}
-                  className="input input-bordered"
+                  className="input input-bordered w-8/12"
                   required
                 />
               </label>
@@ -146,7 +146,7 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
                   name="source"
                   value={productData.source}
                   onChange={handleChange}
-                  className="select select-bordered"
+                  className="select select-bordered w-8/12"
                   required
                 >
                   <option value="">Sélectionner la source</option>
@@ -168,7 +168,7 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
                 />
               </label>
             </div>
-            <div className="card-actions justify-end">
+            <div className="card-actions justify-end mt-5">
               <button type="submit" className="btn btn-primary">
               Ajouter un produit
               </button>

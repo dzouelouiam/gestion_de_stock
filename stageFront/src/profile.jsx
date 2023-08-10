@@ -66,18 +66,17 @@ const Profile = () => {
 
     return (
         <>
-            <Navbar />
-            <div className="flex justify-center items-center h-screen bg-gray-100 shadow-ms">
-                <div className="bg-white p-8 rounded-lg shadow-md w-96">
+            <div className="flex justify-center items-center h-full bg-gray-100 shadow-ms">
+                <div className="bg-white p-8 rounded-lg shadow-md w-96 h-full">
                     <div className="flex justify-center items-center mb-4">
                         <UilUserCircle size="64" className="text-primary" />
                     </div>
                     <h2 className="text-2xl font-semibold mb-4">Votre Profile</h2>
                     <div className="mb-4">
-                        <label className="text-gray-600 text-sm mb-1">Nom</label>
+                        <label className="text-gray-600 text-lg mb-1">Nom</label>
                         <input
                             type="text"
-                            className="input input-bordered input-xs w-full max-w-xs"
+                            className="input input-bordered text-center w-full max-w-xs"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
@@ -86,7 +85,7 @@ const Profile = () => {
                         <label className="text-gray-600 text-sm mb-1">Email</label>
                         <input
                             type="email"
-                            className="input input-bordered input-xs w-full max-w-xs"
+                            className="input input-bordered text-center w-full max-w-xs"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -95,7 +94,7 @@ const Profile = () => {
                         <label className="text-gray-600 text-sm mb-1">Téléphone</label>
                         <input
                             type="text"
-                            className="input input-bordered input-xs w-full max-w-xs"
+                            className="input input-bordered text-center w-full max-w-xs"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                         />
@@ -103,7 +102,7 @@ const Profile = () => {
                     <div className="mb-4">
                         <label className="text-gray-600 text-sm mb-1">Bio</label>
                         <textarea
-                            className="textarea textarea-bordered textarea-xs w-full max-w-xs"
+                            className="textarea textarea-bordered text-center w-full max-w-xs"
                             value={bio}
                             onChange={(e) => setBio(e.target.value)}
                         ></textarea>

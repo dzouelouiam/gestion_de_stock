@@ -2,11 +2,12 @@ import React from 'react';
 import { UilBox, UilDropbox, UilUser } from '@iconscout/react-unicons'
 import Navbar from './components/navbar';
 import { Link } from "react-router-dom";
+import Profile from './profile';
 
 const Home = () => {
     return (
         <div className='flex flex-col w-full h-screen'>
-            <Navbar/>
+            <Navbar />
 
             <div className="flex justify-center items-center flex-grow space-x-8 mt-8">
                 <div className="card w-96 bg-base-100 shadow-xl">
@@ -18,9 +19,9 @@ const Home = () => {
                             <h2 className="card-title">Entrée</h2>
                             <p>Les entrées du stock</p>
                             <div className="card-actions">
-                            <Link to="/entree">
-                                <button className="btn btn-primary">Entrée</button>
-                            </Link>
+                                <Link to="/entree">
+                                    <button className="btn btn-primary">Entrée</button>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -50,9 +51,16 @@ const Home = () => {
                             <h2 className="card-title">Profile</h2>
                             <p>Vue profile</p>
                             <div className="card-actions">
-                            <Link to="/profile">
-                                <button className="btn btn-primary">Profile</button>
-                            </Link>
+                                <div className="drawer drawer-end">
+                                    <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+                                    <div className="drawer-content">
+                                        <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary">profile</label>
+                                    </div>
+                                    <div className="drawer-side">
+                                    <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
+                                        <Profile/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

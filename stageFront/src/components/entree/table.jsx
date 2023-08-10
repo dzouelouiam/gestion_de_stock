@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Delete from "./Delete"; // Import the Delete component
 import Modify from "./Modify";
 
+
 const Table = () => {
   const [products, setProducts] = useState([]);
 
@@ -116,10 +117,10 @@ const Table = () => {
             <td>{product.source}</td>
             <td>{new Date(product.customDate).toLocaleDateString()}</td>
             <td>
-              <div className="flex justify-center">
-                <Delete productId={product._id} onDelete={() => handleDeleteProduct(product._id)} />
+              <div className="flex flex-row justify-center items-center">
+                
                 <button
-                  className="btn btn-success ml-2"
+                  className="ml-2 border-2 w-20 text-center border-success p-1 rounded-lg font-bold hover:text-white hover:bg-success"
                   onClick={() => {
                     setShowModifyForm(true);
                     setSelectedProduct(product);
@@ -128,11 +129,13 @@ const Table = () => {
                   Modifier
                 </button>
                 <button
-                  className="btn btn-neutral ml-2"
+                  className="ml-2 border-2 w-20 text-center border-warning p-1 rounded-lg font-bold hover:text-white hover:bg-warning"
                 >
                   Sortie
                 </button>
+                <Delete productId={product._id} onDelete={() => handleDeleteProduct(product._id)} />
               </div>
+              
             </td>
           </tr>
         ))}
@@ -142,6 +145,7 @@ const Table = () => {
             <Modify
               productData={selectedProduct}
               modifyProduct={handleModifyProduct}
+              setShowCard={setShowModifyForm}
             />
           </td>
         </tr>

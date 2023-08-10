@@ -242,12 +242,10 @@ const forgotPassword = asyncHandler(async(req, res)=> {
     }
     //create Reset Token
     let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
-    console.log(resetToken);
     
     // hash token before saving to DB
     const hashedToken= crypto
     .createHash("sha256").update(resetToken).digest("hex");
-    console.log(hashedToken);
     await new Token({
         userId: user._id,
         token: hashedToken,
