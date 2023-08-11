@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
-
+const ProductSortie= require("../models/productSortieModel");
 
 
 // Create Product
@@ -103,10 +103,51 @@ const updateProduct = asyncHandler(async (req, res) => {
 });
 
 
+const createProductSortie = asyncHandler(async (req, res) => {
+    const { product, quantitySortie, destination, dateSortie } = req.body;
+  
+    // Validation
+    if (!product || !quantitySortie || !destination || !dateSortie) {
+      res.status(400);
+      throw new Error("Merci de remplir tous les champs pour la sortie de produit");
+    }
+  
+    // Create ProductSortie
+    const productSortie = await ProductSortie.create({
+      product,
+      quantitySortie,
+      destination,
+      dateSortie,
+    });
+  
+    // Update corresponding Product's quantity
+    const existingProduct = await Product.findById(product);
+    if (!existingProduct) {
+      res.status(404);
+      throw new Error("Product not found");
+    }
+  
+    existingProduct.quantity -= quantitySortie;
+    await existingProduct.save();
+  
+    console.log(productSortie)
+    res.status(201).json(productSortie);
+    
+  });
+  
+//getAllProductSorties
+  const getAllProductSorties = asyncHandler(async (req, res) => {
+    const productSorties = await ProductSortie.find({}).populate("product");
+  
+    res.json(productSorties);
+  });
+
 
 module.exports = {
     createProduct,
     getAllProducts,
     deleteProduct,
     updateProduct,
+    createProductSortie,
+    getAllProductSorties,
 };

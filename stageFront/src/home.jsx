@@ -36,7 +36,9 @@ const Home = () => {
                             <h2 className="card-title">Sortie</h2>
                             <p>Les sorties du stock</p>
                             <div className="card-actions">
-                                <button className="btn btn-primary">Sortie</button>
+                                <Link to="/sortie">
+                                    <button className="btn btn-primary">Sortie</button>
+                                </Link>
                             </div>
                         </div>
                     </div>

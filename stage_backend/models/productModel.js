@@ -35,6 +35,10 @@ const productSchema = mongoose.Schema(
       type: Date, 
       required: [true, "Veuillez ajouter une date"],
     },
+    sortieProduct:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ProductSortie',
+    },
   },
   {
     timestamps: true,

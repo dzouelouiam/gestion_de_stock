@@ -7,6 +7,7 @@ import Home from "./home";
 import Entree from "./entree";
 import Profile from "./profile";
 import { UserAuth } from "./middlewares/userAuth";
+import SortiePage from "./sortiePage";
 
 
 const App = () => {
@@ -21,6 +22,9 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="/entree" element={ <Entree/>}/>
         <Route path="/profile" element={ <Profile/>}/>
+        <Route path="/sortie" element={ <SortiePage/>}/>
+        
+        
 
       </Route>
 

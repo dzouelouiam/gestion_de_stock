@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Delete from "./Delete"; // Import the Delete component
 import Modify from "./Modify";
+import Sortie from "../../sortie";
+import { data } from "autoprefixer";
 
 
 const Table = () => {
   const [products, setProducts] = useState([]);
+
+  const [showSortieForm, setShowSortieForm] = useState(false);
+  const [selectedProductForSortie, setSelectedProductForSortie] = useState(null);
+
 
 
   useEffect(() => {
@@ -41,11 +47,11 @@ const Table = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to delete product");
       }
-  
+
       // If successful, update the product list
       const updatedProducts = products.filter((product) => product._id !== productId);
       setProducts(updatedProducts);
@@ -118,7 +124,7 @@ const Table = () => {
             <td>{new Date(product.customDate).toLocaleDateString()}</td>
             <td>
               <div className="flex flex-row justify-center items-center">
-                
+
                 <button
                   className="ml-2 border-2 w-20 text-center border-success p-1 rounded-lg font-bold hover:text-white hover:bg-success"
                   onClick={() => {
@@ -130,26 +136,42 @@ const Table = () => {
                 </button>
                 <button
                   className="ml-2 border-2 w-20 text-center border-warning p-1 rounded-lg font-bold hover:text-white hover:bg-warning"
+                  onClick={() => {
+                    setShowSortieForm(true);
+                    setSelectedProduct(product);
+                  }}
                 >
                   Sortie
                 </button>
+
                 <Delete productId={product._id} onDelete={() => handleDeleteProduct(product._id)} />
               </div>
-              
+
             </td>
           </tr>
         ))}
-      {showModifyForm && selectedProduct && (
-        <tr>
-          <td colSpan="8">
-            <Modify
-              productData={selectedProduct}
-              modifyProduct={handleModifyProduct}
-              setShowCard={setShowModifyForm}
-            />
-          </td>
-        </tr>
-      )}
+        {showModifyForm && selectedProduct && (
+          <tr>
+            <td colSpan="8">
+              <Modify
+                productData={selectedProduct}
+                modifyProduct={handleModifyProduct}
+                setShowCard={setShowModifyForm}
+              />
+            </td>
+          </tr>
+        )}
+        {showSortieForm && selectedProduct && (
+          <tr>
+            <td colSpan="8">
+              <Sortie
+                product={selectedProduct} 
+                setShowSortieForm={setShowSortieForm}
+                token={localStorage.getItem("JWT")}
+              />
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );
