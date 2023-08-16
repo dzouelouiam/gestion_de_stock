@@ -98,6 +98,7 @@ const Table = () => {
   };
 
   return (
+    
     <table className="table table-zebra">
       {/* head */}
       <thead>

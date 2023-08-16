@@ -142,6 +142,50 @@ const createProductSortie = asyncHandler(async (req, res) => {
     res.json(productSorties);
   });
 
+  //getEntréeStatistics
+  const getEntréeStatistics = asyncHandler(async (req, res) => {
+    try {
+      const totalEntrées = await Product.countDocuments();
+      const totalEntréeQuantity = await Product.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalQuantity: { $sum: "$quantity" }
+          }
+        }
+      ]);
+  
+      res.json({
+        totalEntrées,
+        totalEntréeQuantity: totalEntréeQuantity.length > 0 ? totalEntréeQuantity[0].totalQuantity : 0
+      });
+    } catch (error) {
+      console.error("Error fetching product entry statistics:", error);
+      res.status(500).json({ message: "Failed to fetch product entry statistics" });
+    }
+  });
+// Get product exit statistics
+const getSortieStatistics = asyncHandler(async (req, res) => {
+    try {
+      const totalSorties = await ProductSortie.countDocuments();
+      const totalSortieQuantity = await ProductSortie.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalQuantitySortie: { $sum: "$quantitySortie" }
+          }
+        }
+      ]);
+  
+      res.json({
+        totalSorties,
+        totalSortieQuantity: totalSortieQuantity.length > 0 ? totalSortieQuantity[0].totalQuantitySortie : 0
+      });
+    } catch (error) {
+      console.error("Error fetching product sortie statistics:", error);
+      res.status(500).json({ message: "Failed to fetch product sortie statistics" });
+    }
+  });
 
 module.exports = {
     createProduct,
@@ -150,4 +194,7 @@ module.exports = {
     updateProduct,
     createProductSortie,
     getAllProductSorties,
+    getEntréeStatistics,
+    getSortieStatistics,
+
 };

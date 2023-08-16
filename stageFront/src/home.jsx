@@ -1,13 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { UilBox, UilDropbox, UilUser } from '@iconscout/react-unicons'
 import Navbar from './components/navbar';
 import { Link } from "react-router-dom";
 import Profile from './profile';
 
 const Home = () => {
+
+    const [entréeStats, setEntréeStats] = useState({});
+    const [sortieStats, setSortieStats] = useState({});
+
+    useEffect(() => {
+        const fetchStatistics = async () => {
+            try {
+                const token = localStorage.getItem('JWT'); 
+                
+                const entréeResponse = await fetch('http://localhost:3000/api/products/statistics/entrees', {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const entréeData = await entréeResponse.json();
+                setEntréeStats(entréeData);
+        
+                const sortieResponse = await fetch('http://localhost:3000/api/products/statistics/sorties', {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const sortieData = await sortieResponse.json();
+                setSortieStats(sortieData);
+            } catch (error) {
+                console.error('Error fetching statistics:', error);
+            }
+        };
+
+        fetchStatistics();
+    }, []);
+
     return (
         <div className='flex flex-col w-full h-screen'>
             <Navbar />
+
+
+            <div className="stats shadow-md">
+                <div className="stat">
+                    <div className="stat-figure text-secondary">
+                        <UilBox className="inline-block w-8 h-8 stroke-current" />
+                    </div>
+                    <div className="stat-title">Total Entrées</div>
+                    <div className="stat-value">{entréeStats.totalEntrées || 0}</div>
+                </div>
+                <div className="stat">
+                    <div className="stat-figure text-secondary">
+                        <UilDropbox className="inline-block w-8 h-8 stroke-current" />
+                    </div>
+                    <div className="stat-title">Total Sorties</div>
+                    <div className="stat-value">{sortieStats.totalSorties || 0}</div>
+                    <div className="stat-desc">Total Sortie Quantity: {sortieStats.totalSortieQuantity || 0}</div>
+                </div>
+            </div>
+
+
 
             <div className="flex justify-center items-center flex-grow space-x-8 mt-8">
                 <div className="card w-96 bg-base-100 shadow-xl">
@@ -69,6 +124,7 @@ const Home = () => {
                 </div>
             </div>
         </div>
+        
 
     );
 };

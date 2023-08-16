@@ -1,51 +1,51 @@
 import React, { useState } from 'react';
 
-const Sortie = ({ product, setShowSortieForm }) => {
+const Sortie = ({ product, setShowSortieFor }) => {
     const [sortieData, setSortieData] = useState({
         quantitySortie: '',
         destination: '',
         dateSortie: '',
     });
-    
-      const handleSortieChange = (e) => {
+
+    const handleSortieChange = (e) => {
         const { name, value } = e.target;
         setSortieData({
-          ...sortieData,
-          [name]: value,
+            ...sortieData,
+            [name]: value,
         });
-      };
+    };
 
     const handleSortieSubmit = async (e) => {
         e.preventDefault();
-      
+
         try {
-          const token = localStorage.getItem("JWT");
-          sortieData.product = product._id;
-          const response = await fetch(`http://localhost:3000/api/products/createProductSortie`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, 
-            },
-            body: JSON.stringify(sortieData),
-          });
-          if (!response.ok) {
-            throw new Error("Failed to create product sortie");
-          }
-      
-          console.log("Product Sortie created successfully");
-          setSortieData({
-            quantitySortie: "",
-            destination: "",
-            dateSortie: "",
-          });
-      
-          setShowSortieForm(false); 
+            const token = localStorage.getItem("JWT");
+            sortieData.product = product._id;
+            const response = await fetch(`http://localhost:3000/api/products/createProductSortie`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(sortieData),
+            });
+            if (!response.ok) {
+                throw new Error("Failed to create product sortie");
+            }
+
+            console.log("Product Sortie created successfully");
+            setSortieData({
+                quantitySortie: "",
+                destination: "",
+                dateSortie: "",
+            });
+
+            setShowSortieForm(false);
         } catch (error) {
-          console.error("Error creating product sortie:", error);
+            console.error("Error creating product sortie:", error);
         }
-      };
-      
+    };
+
 
     return (
         <div
@@ -67,14 +67,14 @@ const Sortie = ({ product, setShowSortieForm }) => {
                         </label>
                     </div>
                     <div className="form-control">
-                        <label className="label">
+                        <label className="label ">
                             Destination:
                             <input
                                 type="text"
                                 name="destination"
                                 value={sortieData.destination}
                                 onChange={handleSortieChange}
-                                className="input input-bordered w-8/12"
+                                className="input input-bordered w-8/1"
                                 required
                             />
                         </label>
@@ -87,7 +87,7 @@ const Sortie = ({ product, setShowSortieForm }) => {
                                 name="dateSortie"
                                 value={sortieData.dateSortie}
                                 onChange={handleSortieChange}
-                                className="input input-bordered w-8/12"
+                                className="input input-bordered"
                                 required
                             />
                         </label>
