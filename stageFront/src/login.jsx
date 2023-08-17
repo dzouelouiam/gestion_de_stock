@@ -78,10 +78,10 @@ const Login = () => {
         <FormProvider {...methods}>
             <Navbar/>
 
-            <form className="w-full flex justify-center items-center h-screen"
+            <form className="w-full flex justify-center items-center h-screen bg-base-200"
                 onSubmit={methods.handleSubmit(submit)}
             >
-                <div className="card card-side bg-base-100 shadow-xl w-1/2">
+                <div className="card card-side bg-base-100 shadow-xl w-2/6">
                     <div className="card-body border-2 border-slate-700 rounded-3xl">
                         <p className="font-bold text-lg text-slate-700">Bienvenue</p>
                         <Input label={"Email"} type={"text"} refreg="email" placeholder="Exemple@exemple.com" />

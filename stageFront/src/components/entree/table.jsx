@@ -5,38 +5,15 @@ import Sortie from "../../sortie";
 import { data } from "autoprefixer";
 
 
-const Table = () => {
-  const [products, setProducts] = useState([]);
+const Table = ({products,setProducts}) => {
+  
 
   const [showSortieForm, setShowSortieForm] = useState(false);
   const [selectedProductForSortie, setSelectedProductForSortie] = useState(null);
 
+  
 
 
-  useEffect(() => {
-    // Function to fetch all products from the backend API
-    const getAllProducts = async () => {
-      try {
-        const token = localStorage.getItem("JWT");
-        const response = await fetch("http://localhost:3000/api/products/getAllProduct", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-
-        const responseData = await response.json();
-        setProducts(responseData);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    getAllProducts();
-  }, []);
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -99,9 +76,10 @@ const Table = () => {
 
   return (
     
-    <table className="table table-zebra">
+    <div className="overflow-x-auto">
+  <table className="table table-xs text-center">
       {/* head */}
-      <thead>
+      <thead className="font-bold text-base">
         <tr>
           <th>Id</th>
           <th>Nom produit</th>
@@ -113,9 +91,9 @@ const Table = () => {
           <th className="text-center">Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody >
         {products.map((product) => (
-          <tr key={product._id}>
+          <tr className="!text-sm" key={product._id}>
             <td>{product._id}</td>
             <td>{product.name}</td>
             <td>{product.category}</td>
@@ -167,14 +145,17 @@ const Table = () => {
             <td colSpan="8">
               <Sortie
                 product={selectedProduct} 
-                setShowSortieForm={setShowSortieForm}
-                token={localStorage.getItem("JWT")}
+                setShowSortieForm={setShowSortieForm} 
+                setProducts = {setProducts}
+                products={products}
+               
               />
             </td>
           </tr>
         )}
       </tbody>
     </table>
+    </div>
   );
 };
 

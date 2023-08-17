@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const AddProduct = ({ getAllProducts, setShowCard }) => {
+const AddProduct = ({ setProducts, setShowCard }) => {
     const [productData, setProductData] = useState({
         name: '',
         category: '',
@@ -49,7 +49,10 @@ const AddProduct = ({ getAllProducts, setShowCard }) => {
         console.error('Error creating product:', errorData);
       } else {
         // Product created successfully, fetch the updated product list
-        await getAllProducts();
+        let newProduct = await response.json();
+        console.log(newProduct);
+        setProducts(prev=> [...prev, newProduct])
+
         setShowCard(false); // Close the card after successful product creation
         // Reset the form fields
         setProductData({

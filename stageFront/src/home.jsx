@@ -12,8 +12,8 @@ const Home = () => {
     useEffect(() => {
         const fetchStatistics = async () => {
             try {
-                const token = localStorage.getItem('JWT'); 
-                
+                const token = localStorage.getItem('JWT');
+
                 const entréeResponse = await fetch('http://localhost:3000/api/products/statistics/entrees', {
                     method: 'GET',
                     headers: {
@@ -22,7 +22,7 @@ const Home = () => {
                 });
                 const entréeData = await entréeResponse.json();
                 setEntréeStats(entréeData);
-        
+
                 const sortieResponse = await fetch('http://localhost:3000/api/products/statistics/sorties', {
                     method: 'GET',
                     headers: {
@@ -40,27 +40,35 @@ const Home = () => {
     }, []);
 
     return (
-        <div className='flex flex-col w-full h-screen'>
+        <div className='relative flex flex-col w-full h-screen bg-base-200'>
             <Navbar />
 
 
-            <div className="stats shadow-md">
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <UilBox className="inline-block w-8 h-8 stroke-current" />
+            <div className='absolute w-full flex justify-center top-44'>
+                <div className="stats shadow-md w-2/6 bg-base-100 ">
+                    <div className="stat">
+                        <div className="stat-figure text-primary">
+                            <UilBox className="inline-block w-8 h-8 stroke-current text-black " />
+                        </div>
+                        <div className="stat-title">Total Entrées</div>
+                        <div className="stat-value text-primary">{entréeStats.totalEntrées || 0}</div>
+                        <div className="stat-desc">Total Sortie Quantity: {entréeStats.totalEntréesQuantity || 0}</div>
                     </div>
-                    <div className="stat-title">Total Entrées</div>
-                    <div className="stat-value">{entréeStats.totalEntrées || 0}</div>
-                </div>
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <UilDropbox className="inline-block w-8 h-8 stroke-current" />
+                    <div className="stat">
+                        <div className="stat-figure text-primary">
+                            <UilDropbox className="inline-block w-8 h-8 stroke-current text-black " />
+                        </div>
+                        <div className="stat-title">Total Sorties</div>
+                        <div className="stat-value text-primary ">{sortieStats.totalSorties || 0}</div>
+                        <div className="stat-desc">Total Sortie Quantity: {sortieStats.totalSortieQuantity || 0}</div>
                     </div>
-                    <div className="stat-title">Total Sorties</div>
-                    <div className="stat-value">{sortieStats.totalSorties || 0}</div>
-                    <div className="stat-desc">Total Sortie Quantity: {sortieStats.totalSortieQuantity || 0}</div>
                 </div>
             </div>
+
+
+
+
+
 
 
 
@@ -114,8 +122,8 @@ const Home = () => {
                                         <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary">profile</label>
                                     </div>
                                     <div className="drawer-side">
-                                    <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-                                        <Profile/>
+                                        <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
+                                        <Profile />
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +132,7 @@ const Home = () => {
                 </div>
             </div>
         </div>
-        
+
 
     );
 };

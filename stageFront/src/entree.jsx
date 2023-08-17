@@ -10,10 +10,10 @@ import Modify from './components/entree/modify';
 const Entree = () => {
   const [showCard, setShowCard] = useState(false);
   const [products, setProducts] = useState([]);
+useEffect(()=>{
+console.log(products);
+},[products]);
 
-  useEffect(() => {
-    getAllProducts();
-  }, []);
 
   const getAllProducts = async () => {
     try {
@@ -30,10 +30,16 @@ const Entree = () => {
 
       const responseData = await response.json();
       setProducts(responseData);
+      return responseData;
+
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   const handleAddButtonClick = () => {
     // Toggle the visibility of the card when the "Add" button is clicked
@@ -45,7 +51,7 @@ const Entree = () => {
       <Navbar />
 
       <div className="overflow-x-auto">
-        <Table products={products} />
+        <Table products={products} setProducts={setProducts} />
         <div className="flex justify-center flex justify-center items-center flex-grow space-x-8 mt-8">
           <button className="btn btn-outline" onClick={handleAddButtonClick}>
           Ajouter
@@ -59,7 +65,7 @@ const Entree = () => {
       </div>
 
       {/* Show the AddProduct component when showCard is true */}
-      {showCard && <AddProduct getAllProducts={getAllProducts} setShowCard={setShowCard} />}
+      {showCard && <AddProduct setProducts={setProducts} setShowCard={setShowCard} />}
     </>
   );
 };
