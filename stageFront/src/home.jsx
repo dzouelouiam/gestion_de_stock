@@ -52,7 +52,7 @@ const Home = () => {
                         </div>
                         <div className="stat-title">Total Entrées</div>
                         <div className="stat-value text-primary">{entréeStats.totalEntrées || 0}</div>
-                        <div className="stat-desc">Total Sortie Quantity: {entréeStats.totalEntréesQuantity || 0}</div>
+                        <div className="stat-desc">Total Entrée Quantity: {entréeStats.totalEntréeQuantity || 0}</div>
                     </div>
                     <div className="stat">
                         <div className="stat-figure text-primary">

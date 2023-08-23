@@ -154,6 +154,7 @@ const AddProduct = ({ setProducts, setShowCard }) => {
                 >
                   <option value="">Sélectionner la source</option>
                   <option value="fournisseur">Fournisseur</option>
+                  <option value="magasin">magasin</option>
                   <option value="marché">Marché</option>
                 </select>
               </label>

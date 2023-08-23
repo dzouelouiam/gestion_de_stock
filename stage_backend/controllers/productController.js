@@ -6,10 +6,10 @@ const ProductSortie= require("../models/productSortieModel");
 // Create Product
 const createProduct = asyncHandler(async (req, res) => {
   const { name, category, quantity, description, source, customDate } = req.body;
-  const sourceEnum = ['fournisseur', 'marché'];
+  const sourceEnum = ['fournisseur', 'marché','magasin'];
   if (!sourceEnum.includes(source)) {
     res.status(400);
-    throw new Error('Veuillez sélectionner fournisseur ou marché');
+    throw new Error('Veuillez sélectionner fournisseur ou marché ou magasin');
   }
 
   // Validation
@@ -48,10 +48,16 @@ const createProduct = asyncHandler(async (req, res) => {
 
 //get product
 const getAllProducts = asyncHandler(async (req, res) => {
-    // Find all products
-    const products = await Product.find({});
+  const page = req.query.page || 1; 
+  const itemsPerPage = 15;
+  const skip = (page - 1) * itemsPerPage;
 
-    res.json(products);
+  const products = await Product.find({})
+      .skip(skip)
+      .limit(itemsPerPage);
+      
+
+  res.json(products);
 });
 
 
@@ -150,7 +156,7 @@ const createProductSortie = asyncHandler(async (req, res) => {
         {
           $group: {
             _id: null,
-            totalQuantity: { $sum: "$quantity" }
+            totalQuantity: { $sum: { $toInt: "$quantity" } }
           }
         }
       ]);

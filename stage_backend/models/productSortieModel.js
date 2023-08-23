@@ -14,7 +14,7 @@ const productSortieSchema = mongoose.Schema(
     destination: {
       type: String,
       required: [true, "Veuillez ajouter une destination"],
-      enum: ["fournisseur", "marché"],
+      enum: ["fournisseur", "marché","magasin"],
     },
     dateSortie: {
       type: Date,

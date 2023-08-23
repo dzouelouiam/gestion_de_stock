@@ -74,6 +74,7 @@ const Sortie = ({ product, setShowSortieForm , setProducts, products}) => {
                             >
                                 <option placeholder hidden >Sélectionner destination</option>
                                 <option value="fournisseur">Fournisseur</option>
+                                <option value="magasin">magasin</option>
                                 <option value="marché">Marché</option>
                             </select>
                         </label>

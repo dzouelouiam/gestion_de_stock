@@ -29,7 +29,7 @@ const productSchema = mongoose.Schema(
     },
     source: {
         type: String,
-        enum: ["fournisseur","marché"]
+        enum: ["fournisseur","marché","magasin"]
     },
     customDate: {
       type: Date, 

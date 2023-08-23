@@ -33,7 +33,7 @@ const Modify = ({ productData, modifyProduct, setShowCard }) => {
       const response = await modifyProduct(modifiedData);
       console.log('Modify Response:', response); // Log the response
       // You can handle the success message or action here
-      
+
     } catch (error) {
       console.error('Error occurred while modifying product:', error);
     }
@@ -115,6 +115,7 @@ const Modify = ({ productData, modifyProduct, setShowCard }) => {
               >
                 <option value="">Sélectionner la source</option>
                 <option value="fournisseur">Fournisseur</option>
+                <option value="magasin">magasin</option>
                 <option value="marché">Marché</option>
               </select>
             </label>
