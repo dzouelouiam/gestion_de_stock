@@ -193,6 +193,20 @@ const getSortieStatistics = asyncHandler(async (req, res) => {
     }
   });
 
+//Search by category
+const searchByCategory = asyncHandler(async(req,res)=>{
+
+  const category = req.body.category;
+  if(!category){
+     res.status(400);
+     throw new Error("Veuillez specifier cette catégorie");
+  }
+
+  const products = await Product.find({ category });
+  res.json(products);
+  
+});
+
 module.exports = {
     createProduct,
     getAllProducts,
@@ -202,5 +216,6 @@ module.exports = {
     getAllProductSorties,
     getEntréeStatistics,
     getSortieStatistics,
+    searchByCategory,
 
 };
