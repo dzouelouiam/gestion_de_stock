@@ -49,12 +49,13 @@ const createProduct = asyncHandler(async (req, res) => {
 //get product
 const getAllProducts = asyncHandler(async (req, res) => {
   const page = req.query.page || 1; 
-  const itemsPerPage = 15;
+  const itemsPerPage = 17;
   const skip = (page - 1) * itemsPerPage;
 
   const products = await Product.find({})
       .skip(skip)
-      .limit(itemsPerPage);
+      .limit(itemsPerPage)
+      .sort({ customDate: 1 });
       
 
   res.json(products);
@@ -206,6 +207,17 @@ const searchByCategory = asyncHandler(async(req,res)=>{
   res.json(products);
   
 });
+const searchByNom = asyncHandler(async (req, res) => {
+  const nom = req.body.nom;
+  if (!nom) {
+    res.status(400);
+    throw new Error("Veuillez spécifier le nom du produit");
+  }
+
+  // Use a regular expression to perform a case-insensitive search by name
+  const products = await Product.find({ name: { $regex: new RegExp(nom, "i") } });
+  res.json(products);
+});
 
 module.exports = {
     createProduct,
@@ -217,5 +229,6 @@ module.exports = {
     getEntréeStatistics,
     getSortieStatistics,
     searchByCategory,
+    searchByNom,
 
 };

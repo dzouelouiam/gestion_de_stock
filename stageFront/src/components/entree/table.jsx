@@ -93,7 +93,7 @@ const Table = ({products,setProducts}) => {
       </thead>
       <tbody >
         {products.map((product) => (
-          <tr className="!text-sm" key={product._id}>
+          <tr className={`!text-sm ${product.quantity < 5 ? 'bg-red-200' : ''}`} key={product._id}>
             <td>{product._id}</td>
             <td>{product.name}</td>
             <td>{product.category}</td>

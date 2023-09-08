@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const protect = require("../middleWare/authMiddleware");
 const {createProduct, getAllProducts, deleteProduct, updateProduct,
-    createProductSortie, getAllProductSorties,getEntréeStatistics, getSortieStatistics, searchByCategory } = require("../controllers/productController");
+    createProductSortie, getAllProductSorties,getEntréeStatistics, getSortieStatistics, searchByCategory,searchByNom } = require("../controllers/productController");
 
 
 router.post("/addProduct", protect, createProduct);
@@ -14,6 +14,7 @@ router.get("/getAllProductSorties", protect, getAllProductSorties);
 router.get("/statistics/entrees", protect, getEntréeStatistics);
 router.get("/statistics/sorties", protect,getSortieStatistics);
 router.post("/searchByCategory",protect,searchByCategory);
+router.post("/searchByNom", protect, searchByNom);
 
 
 
