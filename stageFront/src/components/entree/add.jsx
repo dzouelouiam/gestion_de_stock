@@ -85,7 +85,7 @@ const AddProduct = ({ setProducts, setShowCard }) => {
   }, [setShowCard]);
 
   return (
-    <div className="absolute top-0 left-0 z-50 w-full h-full flex flex-col justify-center items-center bg-slate-500/80">
+    <div className="fixed top-0 left-0 z-50 w-full h-full flex flex-col justify-center items-center bg-slate-500/80">
       <div className="card w-1/4 bg-base-200 text-content text-black">
         <div className="card-body ">
           <h2 className="card-title">Ajouter un nouveau produit</h2>

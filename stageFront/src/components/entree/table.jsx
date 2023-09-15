@@ -76,10 +76,10 @@ const Table = ({products,setProducts}) => {
 
   return (
     
-    <div className="overflow-x-auto">
+    <div className="overflow-y-auto h-[32.5rem]">
   <table className="table table-xs text-center">
       {/* head */}
-      <thead className="font-bold text-base">
+      <thead className="font-bold text-base sticky top-0 bg-base-100">
         <tr>
           <th>Id</th>
           <th>Nom produit</th>
@@ -92,7 +92,9 @@ const Table = ({products,setProducts}) => {
         </tr>
       </thead>
       <tbody >
-        {products.map((product) => (
+        {
+        products.length > 0 ?
+        products.map((product) => (
           <tr className={`!text-sm ${product.quantity < 5 ? 'bg-red-200' : ''}`} key={product._id}>
             <td>{product._id}</td>
             <td>{product.name}</td>
@@ -128,7 +130,14 @@ const Table = ({products,setProducts}) => {
 
             </td>
           </tr>
-        ))}
+        ))
+        :
+        <tr>
+          <td colSpan={8} className='text-center text-lg py-10 text-error font-semibold'>
+            <p>Aucun produit disponible</p>
+          </td>
+        </tr>
+      }
         {showModifyForm && selectedProduct && (
           <tr>
             <td colSpan="8">
